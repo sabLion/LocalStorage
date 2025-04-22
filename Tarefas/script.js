@@ -4,33 +4,33 @@ const entradaTarefa = document.getElementById("entradaTarefa")
 const botaoAdicionar = document.getElementById("botaoAdicionar")
 const listarTarefas = document.getElementById("listarTarefas")
 
-function salvarTarefas(){
+function salvarTarefas() {
     localStorage.setItem("tarefas", JSON.stringify(tarefas))
 }
 
-//Exibir tarefas
-function exibirTarefas(){
-    listarTarefas.innerText =""
-    tarefas.forEach((tarefa, indice) =>{
+//Exibir Tarefas
+function exibirTarefas() {
+    listarTarefas.innerText = ""
+    tarefas.forEach((tarefa, indice) => {
         const itemLista = document.createElement("li")
 
         const caixaMarcacao = document.createElement("input")
         caixaMarcacao.type = "checkbox"
         caixaMarcacao.checked = tarefa.feita
-        caixaMarcacao.onchange = () =>{
+        caixaMarcacao.onchange = () => {
             tarefas[indice].feita = !tarefas[indice.feita]
             salvarTarefas()
-            exibirTarefas()
+            salvarTarefas()
         }
 
         const textoTarefa = document.createElement("span")
         textoTarefa.textContent = tarefa.texto
-        if(tarefa.feita){
+        if(tarefas.feita){
             textoTarefa.classList.add("concluida")
         }
         const botaoExcluir = document.createElement("button")
-        botaoExcluir.textContent ="excluir"
-        botaoExcluir.onclick = () =>{
+        botaoExcluir.textContent = "excluir"
+        botaoExcluir.onclick = () => {
             tarefas.splice(indice, 1)
             salvarTarefas()
             exibirTarefas()
@@ -41,11 +41,10 @@ function exibirTarefas(){
         listarTarefas.appendChild(itemLista)
     })
 }
-
 //Adicionar Tarefas
 botaoAdicionar.addEventListener("click", () => {
     const texto = entradaTarefa.value 
-    if (texto !=""){
+    if(texto != "") {
         tarefas.push({texto: texto, feita: false})
         salvarTarefas()
         exibirTarefas()
